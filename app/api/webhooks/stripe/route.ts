@@ -15,7 +15,8 @@ function getStripe(): Stripe {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) throw new Error("STRIPE_SECRET_KEY missing at runtime");
   // Podés fijar apiVersion o dejar que use la de tu cuenta
-  return new Stripe(key, { apiVersion: "2025-08-27.basil" });
+  return new Stripe(key);
+
 }
 
 function getWebhookSecret(): string {
