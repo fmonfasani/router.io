@@ -1,4 +1,4 @@
-// lib/stripe.ts  ✅ Lazy, sin top-level instantiation
+// lib/stripe.ts (alternativa tipada)
 import Stripe from "stripe";
 
 let _stripe: Stripe | null = null;
@@ -6,12 +6,10 @@ let _stripe: Stripe | null = null;
 export function getStripe() {
   if (_stripe) return _stripe;
   const key = process.env.STRIPE_SECRET_KEY;
-  if (!key) {
-    // No tirar error en build: sólo al invocarlo en runtime
-    throw new Error("STRIPE_SECRET_KEY missing at runtime");
-  }
+  if (!key) throw new Error("STRIPE_SECRET_KEY missing at runtime");
+
   _stripe = new Stripe(key, {
-    apiVersion: "2025-08-27.basil", // o quítalo para usar la default de tu cuenta
+    apiVersion: "2025-02-24.acacia", // ✅ coincide con las typings instaladas
   });
   return _stripe;
 }

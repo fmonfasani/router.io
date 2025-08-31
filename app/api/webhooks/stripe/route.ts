@@ -1,41 +1,49 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import { Stripe } from "stripe";
+import Stripe from "stripe";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { STRIPE_PLANS } from "@/lib/constants/stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+function getStripe(): Stripe {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) throw new Error("STRIPE_SECRET_KEY missing at runtime");
+  // Podés fijar apiVersion o dejar que use la de tu cuenta
+  return new Stripe(key, { apiVersion: "2025-08-27.basil" });
+}
+
+function getWebhookSecret(): string {
+  const secret = process.env.STRIPE_WEBHOOK_SECRET;
+  if (!secret) throw new Error("STRIPE_WEBHOOK_SECRET missing at runtime");
+  return secret;
+}
 
 export async function POST(request: Request) {
   try {
-    const body = await request.text();
-    const signature = headers().get("stripe-signature")!;
+    // 1) Raw body + firma (NECESARIO para validar)
+    const rawBody = await request.text();
+    const signature = (await headers()).get("stripe-signature") ?? "";
 
-    // Verify the webhook signature
-    const event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      webhookSecret
-    );
+    const stripe = getStripe();
+    const webhookSecret = getWebhookSecret();
 
-    // Handle checkout session completion
+    // 2) Verificar firma y parsear evento (snapshot payloads)
+    const event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
+
+    // 3) Manejo de eventos
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
 
-      // Get the price ID from the session
-      const lineItems = await stripe.checkout.sessions.listLineItems(
-        session.id
-      );
-      const priceId = lineItems.data[0].price?.id;
+      // Recuperar line items para obtener el priceId
+      const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+      const priceId = lineItems.data[0]?.price?.id;
 
-      // Determine the plan based on price ID
-      let plan: "lite" | "pro" | "business";
-
-      // Get all possible price IDs for each plan
       const priceIdToPlan = {
         [STRIPE_PLANS.lite.monthlyPriceId.dev]: "lite",
         [STRIPE_PLANS.lite.monthlyPriceId.prod]: "lite",
@@ -51,36 +59,28 @@ export async function POST(request: Request) {
         [STRIPE_PLANS.business.yearlyPriceId.prod]: "business",
       } as const;
 
-      plan = priceIdToPlan[priceId as keyof typeof priceIdToPlan];
-
+      const plan = priceId ? priceIdToPlan[priceId as keyof typeof priceIdToPlan] : undefined;
       if (!plan) {
-        console.error(`Invalid price ID: ${priceId}`);
-        throw new Error(`Invalid price ID: ${priceId}`);
+        console.error(`[Stripe] Invalid or missing price ID: ${priceId}`);
+        return NextResponse.json({ error: "Invalid price" }, { status: 400 });
       }
 
       const customerEmail = session.customer_email;
       if (!customerEmail) {
-        throw new Error("No customer email found in session");
+        console.error("[Stripe] No customer email in session");
+        return NextResponse.json({ error: "Missing email" }, { status: 400 });
       }
 
       await db
         .update(users)
-        .set({
-          plan,
-          stripeCustomerId: session.customer as string,
-        })
+        .set({ plan, stripeCustomerId: session.customer as string })
         .where(eq(users.email, customerEmail));
     }
 
-    // Handle subscription updates
     if (event.type === "customer.subscription.updated") {
       const subscription = event.data.object as Stripe.Subscription;
-      const priceId = subscription.items.data[0].price.id;
+      const priceId = subscription.items.data[0]?.price?.id;
 
-      // Determine the new plan based on price ID
-      let plan: "lite" | "pro" | "business";
-
-      // Get all possible price IDs for each plan
       const priceIdToPlan = {
         [STRIPE_PLANS.lite.monthlyPriceId.dev]: "lite",
         [STRIPE_PLANS.lite.monthlyPriceId.prod]: "lite",
@@ -96,11 +96,10 @@ export async function POST(request: Request) {
         [STRIPE_PLANS.business.yearlyPriceId.prod]: "business",
       } as const;
 
-      plan = priceIdToPlan[priceId as keyof typeof priceIdToPlan];
-
+      const plan = priceId ? priceIdToPlan[priceId as keyof typeof priceIdToPlan] : undefined;
       if (!plan) {
-        console.error(`Invalid price ID: ${priceId}`);
-        throw new Error(`Invalid price ID: ${priceId}`);
+        console.error(`[Stripe] Invalid price ID on subscription.updated: ${priceId}`);
+        return NextResponse.json({ error: "Invalid price" }, { status: 400 });
       }
 
       await db
@@ -109,44 +108,35 @@ export async function POST(request: Request) {
         .where(eq(users.stripeCustomerId, subscription.customer as string));
     }
 
-    // Handle subscription deletions
     if (event.type === "customer.subscription.deleted") {
       const subscription = event.data.object as Stripe.Subscription;
-
       await db
         .update(users)
         .set({ plan: "free" })
         .where(eq(users.stripeCustomerId, subscription.customer as string));
     }
 
-    // Handle failed payments
     if (event.type === "invoice.payment_failed") {
       const invoice = event.data.object as Stripe.Invoice;
-
-      // You might want to notify the user or take other actions
-      console.error(`Payment failed for customer ${invoice.customer}`);
+      console.error(`[Stripe] Payment failed for customer ${invoice.customer}`);
+      // acá podrías notificar al usuario por email, etc.
     }
 
-    // Handle customer deletion
     if (event.type === "customer.deleted") {
       const customer = event.data.object as Stripe.Customer;
-
       await db
         .update(users)
-        .set({
-          plan: "free",
-          stripeCustomerId: null,
-        })
+        .set({ plan: "free", stripeCustomerId: null })
         .where(eq(users.stripeCustomerId, customer.id));
     }
 
     revalidatePath("/");
     return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Stripe webhook error:", error);
-    return NextResponse.json(
-      { error: "Webhook handler failed" },
-      { status: 400 }
-    );
+  } catch (error: any) {
+    // OJO: si la verificación de firma falla, devolvé 400 para que Stripe reintente con backoff
+    const msg = error?.message ?? "Webhook handler failed";
+    console.error("[Stripe webhook error]", msg);
+    const status = /signature/i.test(msg) ? 400 : 500;
+    return NextResponse.json({ error: msg }, { status });
   }
 }
