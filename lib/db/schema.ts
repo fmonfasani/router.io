@@ -8,6 +8,7 @@ import {
   boolean,
   jsonb,
 } from "drizzle-orm/pg-core";
+import type { InferSelectModel } from "drizzle-orm";
 import type { AdapterAccount } from "@auth/core/adapters";
 import { init } from "@paralleldrive/cuid2";
 
@@ -142,3 +143,6 @@ export const logs = pgTable("log", {
   message: jsonb("message").$type<Record<string, any> | unknown>().notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
 });
+
+export type Endpoint = InferSelectModel<typeof endpoints>;
+export type Lead = InferSelectModel<typeof leads>;

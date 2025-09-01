@@ -1,8 +1,10 @@
 'use server'
 
+
 import { sql } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import { authenticatedAction } from '@/lib/data/safe-action'
+
 
 /**
  * Get lead and error counts in proper format for shadcn/ui charts
