@@ -5,7 +5,7 @@ import { leads, endpoints } from '@/lib/db/schema'
 import { eq, desc, and } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { db } from '@/lib/db'
-import { authenticatedAction } from '@/lib/data/safe-action'
+import { authenticatedAction } from '@/lib/data/safe-action.server'
 import { z } from 'zod'
 
 /**
