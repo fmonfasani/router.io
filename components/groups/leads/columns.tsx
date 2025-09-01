@@ -1,6 +1,6 @@
 "use client";
 
-import { Lead } from "@/lib/db";
+import type { Lead } from "@/lib/db/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { DataTableColumnHeader } from "@/components/data-table/header";
