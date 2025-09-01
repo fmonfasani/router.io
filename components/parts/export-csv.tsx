@@ -1,6 +1,6 @@
 "use client";
 
-import { Lead } from "@/lib/db";
+import type { Lead } from "@/lib/db/types";
 import { Button } from "../ui/button";
 import { parse } from "json2csv";
 import { toast } from "sonner";
