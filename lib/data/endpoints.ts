@@ -1,7 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { db, Endpoint } from "../db";
+import { db } from "../db";
+import type { Endpoint } from "../db/index";
 import { endpoints } from "../db/schema";
 import { eq, desc, and } from "drizzle-orm";
 import { getErrorMessage } from "@/lib/helpers/error-message";

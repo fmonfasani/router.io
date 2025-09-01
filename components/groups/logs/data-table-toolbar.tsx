@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options";
 import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter";
 import { CircleCheck, CircleX, Webhook, CodeXml } from "lucide-react";
-import { Endpoint } from "@/lib/db";
+import type { Endpoint } from "@/lib/db/index";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
