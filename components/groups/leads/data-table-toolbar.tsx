@@ -8,11 +8,7 @@ import { Input } from "@/components/ui/input";
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options";
 import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter";
 
-<<<<<<< HEAD
 import type { Endpoint } from "@/lib/db/index";
-=======
-import type { Endpoint } from "@/lib/db/types";
->>>>>>> main
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
