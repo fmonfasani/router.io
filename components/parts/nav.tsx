@@ -3,7 +3,7 @@ import AccountWidget from "../auth/widget";
 import Link from "next/link";
 import Image from "next/image";
 import { ModeToggle } from "@/components/parts/mode-toggle";
-import { getUsageForUser } from "@/lib/data/users";
+import { getUsageForUser } from "@/app/actions/users";
 import { LucideProps } from "lucide-react";
 
 // Image Imports

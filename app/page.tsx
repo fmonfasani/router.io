@@ -4,13 +4,13 @@ import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
 import { Chart } from "@/components/dashboard/chart";
 import { PageWrapper } from "@/components/parts/page-wrapper";
-import { getLeadAndErrorCounts } from "@/lib/data/dashboard";
+import { getLeadAndErrorCounts } from "@/app/actions/dashboard";
 import { notFound } from "next/navigation";
-import { getLeads } from "@/lib/data/leads";
-import { getEndpoints } from "@/lib/data/endpoints";
+import { getLeads } from "@/app/actions/leads";
+import { getEndpoints } from "@/app/actions/endpoints";
 import { DataTable } from "@/components/groups/leads/data-table";
 import { columns } from "@/components/groups/leads/columns";
-import { getUsageForUser } from "@/lib/data/users";
+import { getUsageForUser } from "@/app/actions/users";
 import { Usage } from "@/components/parts/usage";
 
 const pageData = {
