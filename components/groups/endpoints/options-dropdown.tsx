@@ -25,7 +25,7 @@ import {
   deleteEndpoint,
   disableEndpoint,
   enableEndpoint,
-} from "@/lib/data/endpoints";
+} from "@/app/actions/endpoints";
 
 import { useAction } from "next-safe-action/hooks";
 import { parseActionError } from "@/lib/data/safe-action";

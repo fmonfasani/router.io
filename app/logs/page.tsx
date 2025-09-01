@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
-import { getLogs } from "@/lib/data/logs";
-import { getEndpoints } from "@/lib/data/endpoints";
+import { getLogs } from "@/app/actions/logs";
+import { getEndpoints } from "@/app/actions/endpoints";
 import { DataTable } from "@/components/groups/logs/data-table";
 import { columns } from "@/components/groups/logs/columns";
 import { PageWrapper } from "@/components/parts/page-wrapper";

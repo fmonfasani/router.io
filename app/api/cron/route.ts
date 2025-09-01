@@ -1,5 +1,5 @@
 import type { NextRequest } from "next/server";
-import { clearLeadCount } from "@/lib/data/users";
+import { clearLeadCount } from "@/app/actions/users";
 
 /**
  * Cron job to clear lead count run through Vercel

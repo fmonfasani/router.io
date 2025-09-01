@@ -20,7 +20,7 @@ import {
 import { MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 
-import { deleteLead } from "@/lib/data/leads";
+import { deleteLead } from "@/app/actions/leads";
 import { useAction } from "next-safe-action/hooks";
 import { parseActionError } from "@/lib/data/safe-action";
 import { toast } from "sonner";

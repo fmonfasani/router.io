@@ -3,7 +3,7 @@ import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
 import { DataTable } from "@/components/data-table";
 import { columns } from "@/components/groups/endpoints/columns";
-import { getEndpoints } from "@/lib/data/endpoints";
+import { getEndpoints } from "@/app/actions/endpoints";
 import { PageWrapper } from "@/components/parts/page-wrapper";
 
 const pageData = {

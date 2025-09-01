@@ -1,9 +1,9 @@
-"use server";
+'use server'
 
-import { db } from "../db";
-import { users, endpoints } from "../db/schema";
-import { eq, sql } from "drizzle-orm";
-import { authenticatedAction } from "./safe-action";
+import { db } from '@/lib/db'
+import { users, endpoints } from '@/lib/db/schema'
+import { eq, sql } from 'drizzle-orm'
+import { authenticatedAction } from '@/lib/data/safe-action'
 
 /**
  * Increments the lead count for a user
@@ -23,8 +23,8 @@ export const incrementLeadCount = async (endpointId: string) => {
           .where(eq(endpoints.id, endpointId))
           .limit(1)
       )
-    );
-};
+    )
+}
 
 /**
  * Retrieves the lead count for a specific endpoint
@@ -38,14 +38,14 @@ export const getLeadCount = async (endpointId: string) => {
     .from(users)
     .innerJoin(endpoints, eq(users.id, endpoints.userId))
     .where(eq(endpoints.id, endpointId))
-    .limit(1);
+    .limit(1)
 
   if (result.length === 0) {
-    throw new Error("Endpoint not found or not associated with a user");
+    throw new Error('Endpoint not found or not associated with a user')
   }
 
-  return result[0].leadCount;
-};
+  return result[0].leadCount
+}
 
 /**
  * Retrieves the user's plan for a specific endpoint
@@ -59,14 +59,14 @@ export const getUserPlan = async (endpointId: string) => {
     .from(users)
     .innerJoin(endpoints, eq(users.id, endpoints.userId))
     .where(eq(endpoints.id, endpointId))
-    .limit(1);
+    .limit(1)
 
   if (result.length === 0) {
-    throw new Error("Endpoint not found or not associated with a user");
+    throw new Error('Endpoint not found or not associated with a user')
   }
 
-  return result[0].plan;
-};
+  return result[0].plan
+}
 
 /**
  * Clears the lead count for all users
@@ -74,26 +74,25 @@ export const getUserPlan = async (endpointId: string) => {
  * Runs once a month on a CRON trigger
  */
 export const clearLeadCount = async () => {
-  await db.update(users).set({ leadCount: 0 });
-};
+  await db.update(users).set({ leadCount: 0 })
+}
 
 /**
  * Retrieves the lead count for specific user
  *
  * Authenticated action
  */
-
 export const getUsageForUser = authenticatedAction.action(
   async ({ ctx: { userId } }) => {
     const result = await db
       .select({ leadCount: users.leadCount, plan: users.plan })
       .from(users)
-      .where(eq(users.id, userId));
+      .where(eq(users.id, userId))
 
     if (result.length === 0) {
-      throw new Error("User not found");
+      throw new Error('User not found')
     }
 
-    return result[0];
+    return result[0]
   }
-);
+)

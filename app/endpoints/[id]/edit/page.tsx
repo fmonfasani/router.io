@@ -12,7 +12,7 @@ import { Home } from "lucide-react";
 import { PageWrapper } from "@/components/parts/page-wrapper";
 import Image from "next/image";
 import Icon from "@/public/icon.svg";
-import { getEndpointById } from "@/lib/data/endpoints";
+import { getEndpointById } from "@/app/actions/endpoints";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 

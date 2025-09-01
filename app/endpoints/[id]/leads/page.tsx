@@ -1,4 +1,4 @@
-import { getLeadsByEndpoint } from "@/lib/data/leads";
+import { getLeadsByEndpoint } from "@/app/actions/leads";
 import {
   Breadcrumb,
   BreadcrumbList,

@@ -5,16 +5,16 @@ import {
   validateAndParseData,
 } from "@/lib/validation";
 import { headers } from "next/headers";
-import { createLead } from "@/lib/data/leads";
-import { createLog } from "@/lib/data/logs";
+import { createLead } from "@/app/actions/leads";
+import { createLog } from "@/app/actions/logs";
 import { getErrorMessage } from "@/lib/helpers/error-message";
 import { constructBodyFromURLParameters } from "@/lib/helpers/construct-body";
-import { getPostingEndpointById } from "@/lib/data/endpoints";
+import { getPostingEndpointById } from "@/app/actions/endpoints";
 import {
   incrementLeadCount,
   getUserPlan,
   getLeadCount,
-} from "@/lib/data/users";
+} from "@/app/actions/users";
 
 /**
  * API route for posting a lead using POST
