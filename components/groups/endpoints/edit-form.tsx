@@ -35,7 +35,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Endpoint } from "@/lib/db";
+import type { Endpoint } from "@/lib/db/index";
 
 import { useAction } from "next-safe-action/hooks";
 import { parseActionError } from "@/lib/data/safe-action";
