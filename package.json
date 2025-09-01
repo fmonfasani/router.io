@@ -9,8 +9,11 @@
     "start": "next start",
     "lint": "next lint",
     "test:unit": "vitest",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "tsx lib/db/migrate.ts"
+    "db:test": "node scripts/db-test.js",
+    "db:generate": "dotenv -e .env.local -- drizzle-kit generate",
+    "db:push": "dotenv -e .env.local -- drizzle-kit push",
+    "db:migrate": "dotenv -e .env.local -- drizzle-kit migrate",
+    "db:migrate:node": "node lib/db/migrate.ts"
   },
   "dependencies": {
     "@auth/core": "^0.34.2",
@@ -49,7 +52,6 @@
     "@stripe/react-stripe-js": "^3.7.0",
     "@stripe/stripe-js": "^5.10.0",
     "@tanstack/react-table": "^8.21.3",
-    "@vercel/postgres": "^0.9.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -92,6 +94,8 @@
     "@types/validator": "^13.15.1",
     "@vitejs/plugin-react": "^4.5.0",
     "autoprefixer": "^10.4.21",
+    "dotenv": "^17.2.1",
+    "dotenv-cli": "^10.0.0",
     "drizzle-kit": "^0.24.2",
     "eslint": "^9.27.0",
     "eslint-config-next": "15.1.4",

@@ -1,23 +1,20 @@
-import { loadEnvConfig } from "@next/env";
-import { migrate } from "drizzle-orm/vercel-postgres/migrator";
-import { db } from ".";
+import "dotenv/config";
+import { Pool } from "pg";
+import { migrate } from "drizzle-orm/node-postgres/migrator";
+import { drizzle } from "drizzle-orm/node-postgres";
 
-/**
- * Migration function
- *
- * Only runs when the NODE_ENV is NOT production
- */
 async function main() {
-  try {
-    const dev = process.env.NODE_ENV !== "production";
-    loadEnvConfig("./", dev);
-
-    await migrate(db, { migrationsFolder: "lib/db/drizzle" });
-    console.log("Migrations complete");
-  } catch (error) {
-    console.log("Migrations failed");
-    console.error(error);
-  }
+  const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: false,
+  });
+  const db = drizzle(pool);
+  await migrate(db, { migrationsFolder: "lib/db/drizzle" });
+  await pool.end();
+  console.log("✅ Migraciones aplicadas");
 }
 
-main();
+main().catch((e) => {
+  console.error("❌ Migraciones fallaron:", e);
+  process.exit(1);
+});

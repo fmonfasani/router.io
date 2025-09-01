@@ -1,17 +1,12 @@
-import { defineConfig } from "drizzle-kit";
-import { loadEnvConfig } from "@next/env";
+// drizzle.config.ts
+import "dotenv/config";
+import type { Config } from "drizzle-kit";
 
-// Load environment variables
-const dev = process.env.NODE_ENV !== "production";
-loadEnvConfig("./", dev);
-
-export default defineConfig({
-  schema: "lib/db/schema.ts",
-  out: "lib/db/drizzle",
+export default {
+  schema: "./lib/db/schema.ts",
+  out: "./lib/db/drizzle",
   dialect: "postgresql",
   dbCredentials: {
-    url: process.env.POSTGRES_URL!,
+    url: process.env.DATABASE_URL!,
   },
-  verbose: true,
-  strict: true,
-});
+} satisfies Config;
