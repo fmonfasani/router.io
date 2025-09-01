@@ -1,13 +1,27 @@
 import "./globals.css";
-
 import type { Metadata } from "next";
-
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 
 import Nav from "@/components/parts/nav";
 import { PostHogProvider } from "@/components/providers/post-hog/post-hog-provider";
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "700"], // lo que uses
+  variable: "--font-inter",
+});
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" className={inter.variable}>
+      <body>{children}</body>
+    </html>
+  );
+}
+
+
 
 const font = Inter({ subsets: ["latin"] });
 

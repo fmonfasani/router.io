@@ -1,16 +1,15 @@
-import "server-only";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
-import * as schema from "@/lib/db/schema";
+import * as schema from "./db";
 
-const url = process.env.DATABASE_URL;
-if (!url) {
-  throw new Error("DATABASE_URL is missing");
+let db: ReturnType<typeof drizzle> | undefined;
+
+if (typeof window === "undefined") {
+  const { Pool } = require("pg");
+  const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: false, // o { rejectUnauthorized: false } si tu proveedor requiere SSL
+  });
+  db = drizzle(pool, { schema });
 }
 
-export const pool = new Pool({
-  connectionString: url,
-  ssl: { rejectUnauthorized: false }, // necesario en Neon
-});
-
-export const db = drizzle(pool, { schema });
+export { db };

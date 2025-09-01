@@ -18,6 +18,7 @@
   "dependencies": {
     "@auth/core": "^0.34.2",
     "@auth/drizzle-adapter": "^0.8.2",
+    "@fontsource/inter": "^5.2.6",
     "@hookform/resolvers": "^3.10.0",
     "@next/env": "^14.2.29",
     "@paralleldrive/cuid2": "^2.2.2",

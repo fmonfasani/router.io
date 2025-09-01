@@ -13,6 +13,18 @@ import { columns } from "@/components/groups/leads/columns";
 import { getUsageForUser } from "@/app/actions/users";
 import { Usage } from "@/components/parts/usage";
 
+import TestDb from "@/components/TestDb";
+
+export default function Home() {
+  return (
+    <main>
+      <h1>Router.io local test</h1>
+      <TestDb />
+    </main>
+  );
+}
+  
+
 const pageData = {
   name: "Dashboard",
   title: "Dashboard",
