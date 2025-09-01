@@ -2,7 +2,7 @@
 
 import { sql } from "drizzle-orm";
 import { db } from "../db";
-import { authenticatedAction } from "./safe-action";
+import { authenticatedAction } from "./safe-action.server";
 
 /**
  * Get lead and error counts in proper format for shadcn/ui charts
