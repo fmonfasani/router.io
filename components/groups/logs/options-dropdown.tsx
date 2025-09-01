@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,9 +22,9 @@ import {
 import { MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 
-import { deleteLog } from "@/lib/data/logs";
+import { deleteLog } from "@/app/actions/logs";
 import { useAction } from "next-safe-action/hooks";
-import { parseActionError } from "@/lib/data/safe-action";
+import { parseActionError } from "@/lib/data/safe-action.client";
 import { toast } from "sonner";
 
 export default function OptionsDropdown({ id }: { id: string }) {

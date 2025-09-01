@@ -2,7 +2,7 @@ import { Breadcrumbs } from "@/components/parts/breadcrumbs";
 import { Header } from "@/components/parts/header";
 import { PageWrapper } from "@/components/parts/page-wrapper";
 import { PlanTiles } from "./plan-tiles";
-import { getUsageForUser } from "@/lib/data/users";
+import { getUsageForUser } from "@/app/actions/users";
 
 const pageData = {
   name: "Upgrade",

@@ -8,7 +8,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Header } from "@/components/parts/header";
-import { getEndpointById } from "@/lib/data/endpoints";
+import { getEndpointById } from "@/app/actions/endpoints";
 import SchemaTable from "@/components/groups/endpoints/schema-table";
 import * as Craft from "@/components/craft/layout";
 import { Separator } from "@/components/ui/separator";

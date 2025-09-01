@@ -1,5 +1,6 @@
-"use server";
+'use server'
 
+<<<<<<< HEAD:lib/data/endpoints.ts
 import { revalidatePath } from "next/cache";
 import { db } from "../db";
 import type { Endpoint } from "../db/index";
@@ -8,12 +9,20 @@ import { eq, desc, and } from "drizzle-orm";
 import { getErrorMessage } from "@/lib/helpers/error-message";
 import { authenticatedAction } from "./safe-action";
 import { z } from "zod";
+=======
+import { revalidatePath } from 'next/cache'
+import { db } from '@/lib/db'
+import { endpoints } from '@/lib/db/schema'
+import { eq, desc, and } from 'drizzle-orm'
+import { authenticatedAction } from '@/lib/data/safe-action'
+import { z } from 'zod'
+>>>>>>> main:app/actions/endpoints.ts
 import {
   createEndpointFormSchema,
   updateEndpointFormSchema,
-} from "./validations";
-import { randomBytes } from "crypto";
-import { redirect } from "next/navigation";
+} from '@/lib/data/validations'
+import { randomBytes } from 'crypto'
+import { redirect } from 'next/navigation'
 
 /**
  * Gets all endpoints for a user
@@ -26,11 +35,11 @@ export const getEndpoints = authenticatedAction.action(
       .select()
       .from(endpoints)
       .where(eq(endpoints.userId, userId))
-      .orderBy(desc(endpoints.updatedAt));
+      .orderBy(desc(endpoints.updatedAt))
 
-    return data;
+    return data
   }
-);
+)
 
 /**
  * Gets a specific endpoint by id
@@ -43,9 +52,9 @@ export const getEndpointById = authenticatedAction
     const [data] = await db
       .select()
       .from(endpoints)
-      .where(and(eq(endpoints.id, id), eq(endpoints.userId, userId)));
-    return data;
-  });
+      .where(and(eq(endpoints.id, id), eq(endpoints.userId, userId)))
+    return data
+  })
 
 /**
  * Gets a specific endpoint to post to
@@ -54,9 +63,9 @@ export const getEndpointById = authenticatedAction
  * Used in the posting route
  */
 export const getPostingEndpointById = async (id: string) => {
-  const [data] = await db.select().from(endpoints).where(eq(endpoints.id, id));
-  return data;
-};
+  const [data] = await db.select().from(endpoints).where(eq(endpoints.id, id))
+  return data
+}
 
 /**
  * Deletes a specific endpoint by id
@@ -68,9 +77,9 @@ export const deleteEndpoint = authenticatedAction
   .action(async ({ parsedInput: { id }, ctx: { userId } }) => {
     await db
       .delete(endpoints)
-      .where(and(eq(endpoints.id, id), eq(endpoints.userId, userId)));
-    revalidatePath("/endpoints");
-  });
+      .where(and(eq(endpoints.id, id), eq(endpoints.userId, userId)))
+    revalidatePath('/endpoints')
+  })
 
 /**
  * Disables a specific endpoint by id
@@ -83,9 +92,9 @@ export const disableEndpoint = authenticatedAction
     await db
       .update(endpoints)
       .set({ enabled: false, updatedAt: new Date() })
-      .where(and(eq(endpoints.id, id), eq(endpoints.userId, userId)));
-    revalidatePath("/endpoints");
-  });
+      .where(and(eq(endpoints.id, id), eq(endpoints.userId, userId)))
+    revalidatePath('/endpoints')
+  })
 
 /**
  * Enables a specific endpoint by id
@@ -98,9 +107,9 @@ export const enableEndpoint = authenticatedAction
     await db
       .update(endpoints)
       .set({ enabled: true, updatedAt: new Date() })
-      .where(and(eq(endpoints.id, id), eq(endpoints.userId, userId)));
-    revalidatePath("/endpoints");
-  });
+      .where(and(eq(endpoints.id, id), eq(endpoints.userId, userId)))
+    revalidatePath('/endpoints')
+  })
 
 /**
  * Creates an endpoint
@@ -111,7 +120,7 @@ export const enableEndpoint = authenticatedAction
 export const createEndpoint = authenticatedAction
   .schema(createEndpointFormSchema)
   .action(async ({ parsedInput, ctx: { userId } }) => {
-    const token = randomBytes(32).toString("hex");
+    const token = randomBytes(32).toString('hex')
     await db.insert(endpoints).values({
       userId,
       name: parsedInput.name,
@@ -126,11 +135,11 @@ export const createEndpoint = authenticatedAction
       token: token,
       createdAt: new Date(),
       updatedAt: new Date(),
-    });
+    })
 
-    revalidatePath("/endpoints");
-    redirect("/endpoints");
-  });
+    revalidatePath('/endpoints')
+    redirect('/endpoints')
+  })
 
 /**
  * Updates an endpoint
@@ -157,8 +166,8 @@ export const updateEndpoint = authenticatedAction
       })
       .where(
         and(eq(endpoints.id, parsedInput.id), eq(endpoints.userId, userId))
-      );
+      )
 
-    revalidatePath("/endpoints");
-    redirect("/endpoints");
-  });
+    revalidatePath('/endpoints')
+    redirect('/endpoints')
+  })

@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import "server-only";
+=======
+// lib/db.ts
+import 'server-only';
+>>>>>>> main
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import * as schema from "@/lib/db/schema";

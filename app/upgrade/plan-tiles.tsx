@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Check, Link } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { postStripeSession } from "@/lib/data/stripe";
-import { createCustomerPortalSession } from "@/lib/data/stripe";
+import { postStripeSession } from "@/app/actions/stripe";
+import { createCustomerPortalSession } from "@/app/actions/stripe";
 import { STRIPE_PLANS } from "@/lib/constants/stripe";
 
 interface PlanProps {
