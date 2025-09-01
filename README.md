@@ -18,7 +18,12 @@ Before starting, ensure you have the following:
 
 ## Environment Variables
 
-After creating your accounts, update your `.env.example` to be `.env.local` for running the application locally. Then, update the keys for each value.
+After creating your accounts, rename `.env.example` to `.env.local` for local development and provide values for the following variables:
+
+- `DATABASE_URL` – connection string for your PostgreSQL database **(required)**
+- `RESEND_API_KEY` – API key from [Resend](https://resend.com/)
+- `AUTH_SECRET` – secret used by NextAuth
+- `NODE_ENV` – typically set to `development`
 
 ## Step-by-Step Instructions
 
