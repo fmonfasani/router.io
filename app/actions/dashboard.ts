@@ -3,7 +3,7 @@
 
 import { sql } from 'drizzle-orm'
 import { db } from '@/lib/db'
-import { authenticatedAction } from '@/lib/data/safe-action'
+import { authenticatedAction } from '@/lib/data/safe-action.server'
 
 
 /**

@@ -1,12 +1,12 @@
 'use server'
 
 import { revalidatePath } from "next/cache";
-import { db } from "../db";
-import type { Endpoint } from "../db/index";
-import { endpoints } from "../db/schema";
+import { db } from "@/lib/db";
+import type { Endpoint } from "@/lib/db";
+import { endpoints } from "@/lib/db/schema";
 import { eq, desc, and } from "drizzle-orm";
 import { getErrorMessage } from "@/lib/helpers/error-message";
-import { authenticatedAction } from "./safe-action";
+import { authenticatedAction } from "@/lib/data/safe-action.server";
 import { z } from "zod";
 import {
   createEndpointFormSchema,
