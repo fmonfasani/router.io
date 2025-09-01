@@ -1,6 +1,10 @@
 "use client";
 
+<<<<<<< HEAD
+import type { Lead } from "@/lib/db/index";
+=======
 import type { Lead } from "@/lib/db/types";
+>>>>>>> main
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { DataTableColumnHeader } from "@/components/data-table/header";

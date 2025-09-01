@@ -1,6 +1,3 @@
-import { Pool } from "pg";
-import { drizzle } from "drizzle-orm/node-postgres";
-
 import { users, endpoints, logs, leads } from "./schema";
 export type { InferSelectModel, InferInsertModel } from "drizzle-orm";
 
@@ -15,11 +12,3 @@ export type NewLog = import("drizzle-orm").InferInsertModel<typeof logs>;
 
 export type Lead = import("drizzle-orm").InferSelectModel<typeof leads>;
 export type NewLead = import("drizzle-orm").InferInsertModel<typeof leads>;
-
-// Usa DATABASE_URL local, sin SSL
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: false,
-});
-
-export const db = drizzle(pool);

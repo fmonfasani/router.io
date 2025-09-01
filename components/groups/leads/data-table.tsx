@@ -28,7 +28,11 @@ import {
 
 import { DataTablePagination } from "@/components/data-table/pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
+<<<<<<< HEAD
+import type { Endpoint } from "@/lib/db/index";
+=======
 import type { Endpoint } from "@/lib/db/types";
+>>>>>>> main
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
