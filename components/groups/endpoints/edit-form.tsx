@@ -38,7 +38,7 @@ import {
 import type { Endpoint } from "@/lib/db/index";
 
 import { useAction } from "next-safe-action/hooks";
-import { parseActionError } from "@/lib/data/safe-action";
+import { parseActionError } from "@/lib/data/safe-action.client";
 import { updateEndpoint } from "@/app/actions/endpoints";
 
 type DomainValues = z.infer<typeof formSchema>;

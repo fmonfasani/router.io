@@ -2,7 +2,7 @@
 
 import { Stripe } from 'stripe'
 import { headers } from 'next/headers'
-import { authenticatedAction } from '@/lib/data/safe-action'
+import { authenticatedAction } from '@/lib/data/safe-action.server'
 import { z } from 'zod'
 import { db } from '@/lib/db'
 import { users } from '@/lib/db/schema'
