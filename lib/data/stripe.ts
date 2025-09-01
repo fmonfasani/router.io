@@ -2,7 +2,7 @@
 
 import { Stripe } from "stripe";
 import { headers } from "next/headers";
-import { authenticatedAction } from "./safe-action";
+import { authenticatedAction } from "./safe-action.server";
 import { z } from "zod";
 import { db } from "../db";
 import { users } from "../db/schema";

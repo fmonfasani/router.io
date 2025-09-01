@@ -1,3 +1,4 @@
+
 export const parseActionError = (error: {
   serverError?: string;
   validationErrors?: {
@@ -20,14 +21,18 @@ export const parseActionError = (error: {
       error.validationErrors._errors &&
       error.validationErrors._errors.length > 0
     ) {
+
       errorMessage += `Validation Errors: ${error.validationErrors._errors.join(", ")}\n`;
+
     }
 
     if (
       error.validationErrors.id?._errors &&
       error.validationErrors.id._errors.length > 0
     ) {
+
       errorMessage += `Validation Errors for ID: ${error.validationErrors.id._errors.join(", ")}\n`;
+
     }
   }
 
@@ -35,7 +40,9 @@ export const parseActionError = (error: {
     error.bindArgsValidationErrors &&
     error.bindArgsValidationErrors.length > 0
   ) {
+
     errorMessage += `Bind Args Validation Errors: ${error.bindArgsValidationErrors.join(", ")}\n`;
+
   }
 
   if (error.fetchError) {
