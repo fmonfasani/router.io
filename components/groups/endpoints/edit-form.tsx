@@ -35,10 +35,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Endpoint } from "@/lib/db";
+import type { Endpoint } from "@/lib/db/types";
 
 import { useAction } from "next-safe-action/hooks";
-import { parseActionError } from "@/lib/data/safe-action";
+import { parseActionError } from "@/lib/data/safe-action.client";
 import { updateEndpoint } from "@/lib/data/endpoints";
 
 type DomainValues = z.infer<typeof formSchema>;

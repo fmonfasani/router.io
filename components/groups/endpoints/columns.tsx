@@ -1,6 +1,6 @@
 "use client";
 
-import { Endpoint } from "@/lib/db";
+import type { Endpoint } from "@/lib/db/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components/data-table/header";
 import { Badge } from "@/components/ui/badge";

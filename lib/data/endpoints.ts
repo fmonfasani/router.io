@@ -5,7 +5,7 @@ import { db, Endpoint } from "../db";
 import { endpoints } from "../db/schema";
 import { eq, desc, and } from "drizzle-orm";
 import { getErrorMessage } from "@/lib/helpers/error-message";
-import { authenticatedAction } from "./safe-action";
+import { authenticatedAction } from "./safe-action.server";
 import { z } from "zod";
 import {
   createEndpointFormSchema,

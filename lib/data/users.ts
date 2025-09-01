@@ -3,7 +3,7 @@
 import { db } from "../db";
 import { users, endpoints } from "../db/schema";
 import { eq, sql } from "drizzle-orm";
-import { authenticatedAction } from "./safe-action";
+import { authenticatedAction } from "./safe-action.server";
 
 /**
  * Increments the lead count for a user

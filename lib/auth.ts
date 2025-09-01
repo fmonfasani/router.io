@@ -1,3 +1,4 @@
+import 'server-only';
 import NextAuth from "next-auth";
 import Email from "next-auth/providers/email";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
